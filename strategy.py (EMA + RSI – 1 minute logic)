@@ -1,0 +1,26 @@
+import pandas as pd
+import ta
+
+def generate_signal(candles: pd.DataFrame):
+    candles["ema_fast"] = ta.trend.ema_indicator(candles["close"], window=9)
+    candles["ema_slow"] = ta.trend.ema_indicator(candles["close"], window=21)
+    candles["rsi"] = ta.momentum.rsi(candles["close"], window=14)
+
+    last = candles.iloc[-1]
+    prev = candles.iloc[-2]
+
+    if (
+        prev["ema_fast"] < prev["ema_slow"]
+        and last["ema_fast"] > last["ema_slow"]
+        and last["rsi"] > 50
+    ):
+        return "BUY"
+
+    if (
+        prev["ema_fast"] > prev["ema_slow"]
+        and last["ema_fast"] < last["ema_slow"]
+        and last["rsi"] < 50
+    ):
+        return "SELL"
+
+    return None
