@@ -1,5 +1,0 @@
-ASSETS = ["EURUSD", "GBPUSD", "USDJPY"]
-
-def get_best_asset():
-    # Placeholder logic (later we connect real payouts)
-    return ASSETS[0]
